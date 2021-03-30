@@ -15,8 +15,7 @@
 	<description>Sistema de atención legal al consumidor</description>
 	<properties>
 		<java.version>16</java.version>
-	</properties>
-	<properties>
+		
   		<sonar.projectKey>MarkelAlvarez_SALC</sonar.projectKey>
   		<sonar.organization>markelalvarez</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
