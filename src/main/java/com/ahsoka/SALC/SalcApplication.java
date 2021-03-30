@@ -8,7 +8,7 @@ public class SalcApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SalcApplication.class, args);
-		System.out.println("Hola mundo3");
+		System.out.println("Hola mundo4");
 	}
 
 }
