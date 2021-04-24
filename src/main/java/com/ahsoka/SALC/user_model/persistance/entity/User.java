@@ -6,25 +6,31 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
+@Getter
+@Setter
 @EqualsAndHashCode
 @NoArgsConstructor
 @Document(indexName = "users", shards = 1, createIndex = false)
 public class User implements UserDetails {
 
-    @Getter @Setter private String id;
-    @Getter @Setter private String email;
-    @Getter @Setter private String password;
-    @Getter @Setter private Role role;
-    @Getter @Setter private boolean locked;
-    @Getter @Setter private boolean enabled;
+    private String id;
+    private String email;
+    private String password;
+    private Role role;
+    private final boolean locked = false;
+    private final boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
+        return Collections.singletonList(authority);
     }
 
     @Override
@@ -34,7 +40,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
@@ -44,7 +50,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return !locked;
     }
 
     @Override
