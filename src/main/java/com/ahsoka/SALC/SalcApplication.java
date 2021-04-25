@@ -6,9 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SalcApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SalcApplication.class, args);
-		System.out.println("Hola mundo7");
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(SalcApplication.class, args);
+    }
 }
