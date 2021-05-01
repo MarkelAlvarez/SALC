@@ -29,14 +29,6 @@ public class JwtService {
         this.expire = expire;
     }
 
-    public String extractToken(String bearer) {
-        if (bearer != null && bearer.startsWith(BEARER) && 3 == bearer.split("\\.").length) {
-            return bearer.substring(BEARER.length());
-        } else {
-            return "";
-        }
-    }
-
     public String createToken(String email, String role) {
         return JWT.create()
                 .withIssuer(this.issuer)
@@ -46,7 +38,14 @@ public class JwtService {
                 .withClaim(USER_CLAIM, email)
                 .withClaim(ROLE_CLAIM, role)
                 .sign(Algorithm.HMAC256(this.secret));
+    }
 
+    public String extractToken(String bearer) {
+        if (bearer != null && bearer.startsWith(BEARER) && 3 == bearer.split("\\.").length) {
+            return bearer.substring(BEARER.length());
+        } else {
+            return "";
+        }
     }
 
     public String user(String authorization) {
