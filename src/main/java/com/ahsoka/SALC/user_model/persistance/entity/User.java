@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -21,7 +22,7 @@ import java.util.Collections;
 @NoArgsConstructor
 @Document(indexName = "users", shards = 1, createIndex = false)
 public class User implements UserDetails {
-    
+
     @Id private String id;
     @Field(type = FieldType.Keyword) private String email;
     @Field(type = FieldType.Keyword) private String password;
@@ -60,7 +61,8 @@ public class User implements UserDetails {
         return false;
     }
 
+    @Override
     public boolean isEnabled() {
-        return ENABLED;
+        return enabled;
     }
 }
