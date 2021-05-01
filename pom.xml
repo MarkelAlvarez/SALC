@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -13,62 +14,95 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SALC</name>
 	<description>Sistema de atención legal al consumidor</description>
+
 	<properties>
 		<java.version>16</java.version>
 		<sonar.projectKey>MarkelAlvarez_SALC</sonar.projectKey>
   		<sonar.organization>markelalvarez</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+		<!-- Jwt Version -->
+		<jwt.version>3.15.0</jwt.version>
 	</properties>
+
 	<dependencies>
+		<!-- Maven Compiler -->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+
+		<!-- Spring Boot - Elasticsearch -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 		</dependency>
+		<!-- Spring Boot - HATEOAS -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
+		<!-- Spring Boot - Starter Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- Spring Security Config -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.4.6</version>
+		</dependency>
+		<!-- Spring Boot - DevTools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- Spring Boot - Starter Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<!-- Project Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.20</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<!-- Spring Security Core -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>5.4.6</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<!-- Junit Jupiter Api -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.8.0-M1</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+		<!-- Jacoco Maven Plugin -->
 		<dependency>
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.6</version>
+		</dependency>
+		<!-- JWT -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${jwt.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -77,6 +111,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
