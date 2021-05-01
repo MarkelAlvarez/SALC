@@ -1,0 +1,21 @@
+{
+  "properties": [
+    {
+      "name": "salc.jwt.secret",
+      "type": "java.lang.String",
+      "description": "Description for salc.jwt.secret.",
+      "defaultValue": "secret-sign"
+    },
+    {
+      "name": "salc.jwt.issuer",
+      "type": "java.lang.String",
+      "description": "Description for salc.jwt.issuer.",
+      "defaultValue": "es-salc-ucm"
+    },
+    {
+      "name": "salc.jwt.expire",
+      "type": "java.lang.Integer",
+      "description": "Description for salc.jwt.expire.",
+      "defaultValue": 36000
+    }
+  ] }

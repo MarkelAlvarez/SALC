@@ -33,6 +33,12 @@
 			<version>3.8.1</version>
 		</dependency>
 
+		<!-- Spring Properties Config -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 		<!-- Spring Boot - Elasticsearch -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
