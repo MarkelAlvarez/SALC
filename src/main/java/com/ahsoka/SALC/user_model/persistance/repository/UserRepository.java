@@ -1,13 +1,14 @@
 package com.ahsoka.SALC.user_model.persistance.repository;
 
 import java.util.List;
-
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 import com.ahsoka.SALC.user_model.persistance.entity.User;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository {
-	public User findByEmail(String email);
-	public List<User> findAll();
+public interface UserRepository extends ElasticsearchRepository<User, String> {
+	Optional<User> findByEmail(String email);
+	List<User> findAll();
 }
