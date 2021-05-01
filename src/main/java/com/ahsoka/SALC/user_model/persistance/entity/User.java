@@ -4,7 +4,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +23,12 @@ import java.util.Collections;
 @Document(indexName = "users", shards = 1, createIndex = false)
 public class User implements UserDetails {
 
-    private String id;
-    private String email;
-    private String password;
-    private Role role;
-    private final boolean locked = false;
-    private final boolean enabled = true;
+    @Id private String id;
+    @Field(type = FieldType.Keyword) private String email;
+    @Field(type = FieldType.Keyword) private String password;
+    @Field(type = FieldType.Keyword) private Role role;
+    @Field(type = FieldType.Boolean) private static final boolean LOCKED = false;
+    @Field(type = FieldType.Boolean) private static final boolean ENABLED = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -49,7 +53,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return !LOCKED;
     }
 
     @Override
@@ -59,6 +63,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return ENABLED;
     }
 }
