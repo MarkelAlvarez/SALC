@@ -1,8 +1,0 @@
-@ActiveProfiles("test")
-@MockBean
-private UserRepositoryIT userRepository;
-
-when(this.userRepository.findByUsername(TestUtil.SALC)).thenReturn(userActive);
-assertEquals(user.getUsername(), TestUtil.SALC);
-
-@Test(expected = InstanceNotFoundException.class)
