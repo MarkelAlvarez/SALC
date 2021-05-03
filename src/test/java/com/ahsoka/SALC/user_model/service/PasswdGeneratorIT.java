@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class PasswdGeneratorIT {
 
     @Test
-    public void whenPasswordGeneratedUsingPassay_thenSuccessful() {
+    public void testWhenPasswordGeneratedUsingPassay_thenSuccessful() {
 
         String password;
         int specialCharCount = 0;
