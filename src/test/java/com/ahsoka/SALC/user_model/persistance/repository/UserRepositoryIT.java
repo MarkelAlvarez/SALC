@@ -1,7 +1,6 @@
-package com.ahsoka.SALC.user.persistance.repository;
+package com.ahsoka.SALC.user_model.persistance.repository;
 
 import com.ahsoka.SALC.user_model.persistance.entity.User;
-import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
