@@ -47,7 +47,7 @@ public class PasswordGeneratorService {
         CharacterRule splCharRule = new CharacterRule(specialChars);
         splCharRule.setNumberOfCharacters(2);
 
-        password = gen.generatePassword(10, splCharRule, lowerCaseRule, upperCaseRule, digitRule);
+        password = gen.generatePassword(12, splCharRule, lowerCaseRule, upperCaseRule, digitRule);
 
         return password;
     }
