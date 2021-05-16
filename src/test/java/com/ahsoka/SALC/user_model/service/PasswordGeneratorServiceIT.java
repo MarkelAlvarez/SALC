@@ -24,6 +24,6 @@ public class PasswordGeneratorServiceIT {
             PasswordValidatorService validPasswd = new PasswordValidatorService();
             Assertions.assertTrue(validPasswd.passwordValidate(password), "La contraseña " + password + " no es valida.");
         }
-        Assertions.assertFalse(!password.equals(prevPasswd), "Las contraseñas son iguales. " + password);
+        Assertions.assertEquals(password, prevPasswd);
     }
 }
