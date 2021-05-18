@@ -156,6 +156,13 @@
 			<version>3.0.0-M5</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Javax Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>3.0-alpha-1</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
