@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         String token = jwtService.extractToken(request.getHeader(AUTHORIZATION));
 
         if (!token.isEmpty()) {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + jwtService.role(token));
+            GrantedAuthority authority = new SimpleGrantedAuthority(jwtService.role(token));
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(jwtService.user(token), token, List.of(authority));
             SecurityContextHolder.getContext().setAuthentication(authentication);
