@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -36,5 +37,14 @@ public class UserService implements UserDetailsService {
         }
         return new org.springframework.security.core.userdetails.User(email, password, active, true,
                 true, true, authorities);
+    }
+
+    public Optional<String> login(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if(user.isPresent())
+            return Optional.of(jwtService.createToken(user.get().getEmail(), user.get().getRole().toString()));
+        else
+            return Optional.empty();
     }
 }
