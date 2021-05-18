@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -75,5 +76,9 @@ public class UserService implements UserDetailsService {
                 return Response.INVALID_EMAIL_FORMAT;
         } else
             return Response.USER_ALREADY_EXISTS;
+    }
+
+    public Stream<User> readAll() {
+        return userRepository.findAll().stream();
     }
 }
