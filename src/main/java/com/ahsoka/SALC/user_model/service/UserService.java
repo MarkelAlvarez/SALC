@@ -5,11 +5,13 @@ import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
@@ -39,12 +42,16 @@ public class UserService implements UserDetailsService {
                 true, true, authorities);
     }
 
-    public Optional<String> login(String email) {
+    public Optional<String> login(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);
 
-        if(user.isPresent())
-            return Optional.of(jwtService.createToken(user.get().getEmail(), user.get().getRole().toString()));
-        else
-            return Optional.empty();
+        if(user.isPresent()) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            return passwordEncoder.matches(password, user.get().getPassword()) ?
+                    Optional.of(jwtService.createToken(user.get().getEmail(), user.get().getRole().toString())) :
+                    Optional.empty();
+        }
+
+        return Optional.empty();
     }
 }

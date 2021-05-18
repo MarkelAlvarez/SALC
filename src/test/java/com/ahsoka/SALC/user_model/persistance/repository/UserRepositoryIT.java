@@ -17,7 +17,7 @@ class UserRepositoryIT {
     @Autowired
     UserRepository userRepository;
 
-    @Disabled
+
     @Test
     void testFindByEmail() {
         assertTrue(userRepository.findByEmail("test_admin@salc.org").isPresent());
