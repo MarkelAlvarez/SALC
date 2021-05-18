@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 public class NewUserRequest {
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "Email is mandatory!")
     private String email;
 
     @NotNull
@@ -21,8 +21,8 @@ public class NewUserRequest {
 
     public User toUser(){
         User user = new User();
-        setEmail(email);
-        setRole(role);
+        user.setEmail(email);
+        user.setRole(role);
 
         return user;
     }

@@ -1,6 +1,7 @@
 package com.ahsoka.SALC.user_model.dtos;
 
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
+import com.ahsoka.SALC.user_model.persistance.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,5 +23,13 @@ class NewUserRequestTest {
         String expectedUserEmail = "test@salc.org";
         assertEquals(expectedRole, newUserRequest.getRole());
         assertEquals(expectedUserEmail, newUserRequest.getEmail());
+    }
+
+    @Test
+    void testToUser() {
+        User expectedUser = new User();
+        expectedUser.setEmail("test@salc.org");
+        expectedUser.setRole(Role.ROLE_ADMIN);
+        assertEquals(expectedUser, newUserRequest.toUser());
     }
 }
