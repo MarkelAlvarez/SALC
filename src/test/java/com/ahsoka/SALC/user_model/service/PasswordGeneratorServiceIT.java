@@ -1,29 +1,27 @@
 package com.ahsoka.SALC.user_model.service;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class PasswordGeneratorServiceIT {
+class PasswordGeneratorServiceIT {
 
-    private static String prevPasswd = "";
+    private PasswordGeneratorService passGen;
+    private static String prevPassword = "";
 
-    @RepeatedTest(3)
-    public void testPasswordGenerator() {
+    @BeforeEach
+    void before() {
+        passGen = new PasswordGeneratorService();
+    }
 
-        String password;
+    @RepeatedTest(10)
+    void testPasswordGenerator() {
+        String password = passGen.generate();
 
-        PasswordGeneratorService passGen = new PasswordGeneratorService();
-        password = passGen.generate();
+        Assertions.assertNotEquals(prevPassword, password);
 
-        if (!password.equals(prevPasswd))
-        {
-            prevPasswd = password;
-
-            PasswordValidatorService validPasswd = new PasswordValidatorService();
-            Assertions.assertTrue(validPasswd.passwordValidate(password), "La contraseña " + password + " no es valida.");
-        }
-        Assertions.assertEquals(password, prevPasswd);
+        prevPassword = password;
     }
 }
