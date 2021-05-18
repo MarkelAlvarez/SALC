@@ -13,8 +13,8 @@ class TokenResponseTest {
     @BeforeEach
     void before() {
         tokenResponse = new TokenResponse("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE2MjEzMTEyODAsInJvbGUiOiJST0x" +
-                                          "FX0FETUlOIiwiaXNzIjoiZXMtc2FsYy11Y20iLCJleHAiOjE2MjEzNDcyODAsImlhdCI6MTYyMTMxMTI4MCwidXNlciI6ImFkbWluQHN" +
-                                          "hbGMub3JnIn0.jdLHT29Y1fXhbya_5hr9NUO8OpF9OYitDHaxSQX847g");
+                "FX0FETUlOIiwiaXNzIjoiZXMtc2FsYy11Y20iLCJleHAiOjE2MjEzNDcyODAsImlhdCI6MTYyMTMxMTI4MCwidXNlciI6ImFkbWluQHN" +
+                "hbGMub3JnIn0.jdLHT29Y1fXhbya_5hr9NUO8OpF9OYitDHaxSQX847g");
     }
 
     @Test
