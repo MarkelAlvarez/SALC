@@ -1,4 +1,4 @@
-package com.ahsoka.SALC.user_model.controller;
+package com.ahsoka.SALC.user_model.service;
 
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;

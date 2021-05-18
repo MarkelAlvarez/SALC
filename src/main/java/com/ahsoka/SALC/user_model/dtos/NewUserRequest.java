@@ -16,7 +16,6 @@ public class NewUserRequest {
     private String email;
 
     @NotNull
-    @NotBlank
     private Role role;
 
     public User toUser(){

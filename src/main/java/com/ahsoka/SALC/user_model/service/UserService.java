@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +54,26 @@ public class UserService implements UserDetailsService {
         }
 
         return Optional.empty();
+    }
+
+    public Response createUser(User newUser) {
+        PasswordGeneratorService passwordGeneratorService = new PasswordGeneratorService();
+        EmailValidator emailValidator = new EmailValidator();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String error = "";
+
+        if(userRepository.findByEmail(newUser.getEmail()).isEmpty()) {
+            if(emailValidator.test(newUser.getEmail())) {
+                List<Role> roleList = Arrays.stream(Role.values()).toList();
+                if(roleList.contains(newUser.getRole())) {
+                    newUser.setPassword(passwordEncoder.encode(passwordGeneratorService.generate()));
+                    userRepository.save(newUser);
+                    return Response.OK;
+                } else
+                    return Response.INVALID_ROLE;
+            } else
+                return Response.INVALID_EMAIL_FORMAT;
+        } else
+            return Response.USER_ALREADY_EXISTS;
     }
 }
