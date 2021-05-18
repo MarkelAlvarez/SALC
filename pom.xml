@@ -84,6 +84,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Spring Boot - Validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<version>2.4.5</version>
+		</dependency>
+
 		<!-- Project Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
