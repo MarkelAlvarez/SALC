@@ -55,7 +55,7 @@ public class UserController {
         if(response.equals(Response.OK))
             return String.valueOf(HttpServletResponse.SC_CREATED);
         else {
-            return HttpServletResponse.SC_EXPECTATION_FAILED + " " + response.toString();
+            return HttpServletResponse.SC_EXPECTATION_FAILED + " " + response;
         }
     }
 

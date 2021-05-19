@@ -15,7 +15,7 @@ import java.util.Collections;
 
 @Data
 @NoArgsConstructor
-@Document(indexName = "users", shards = 1, createIndex = false)
+@Document(indexName = "users", shards = 1, createIndex = true)
 public class User implements UserDetails {
 
     @Id private String id;
