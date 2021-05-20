@@ -81,4 +81,53 @@ public class UserService implements UserDetailsService {
     public Stream<User> readAll() {
         return userRepository.findAll().stream();
     }
+
+    public Optional<User> readUserByEmail(String email) {
+        EmailValidator emailValidator = new EmailValidator();
+        if(emailValidator.test(email))
+            return userRepository.findByEmail(email);
+        else
+            return Optional.empty();
+    }
+
+    public Response updateUserEmail(User user, String referenceEmail) {
+        EmailValidator emailValidator = new EmailValidator();
+
+        if(userRepository.findByEmail(referenceEmail).isPresent()) {
+            if(emailValidator.test(user.getEmail())) {
+                if(userRepository.findByEmail(user.getEmail()).isEmpty()) {
+                    Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
+                    referenceUser.get().setEmail(user.getEmail());
+                    userRepository.save(referenceUser.get());
+                    return Response.OK;
+                } else
+                    return Response.EMAIL_ALREADY_ASSIGNED;
+            }
+            return Response.INVALID_EMAIL_FORMAT;
+        }
+            return Response.REFERENCE_EMAIL_DOESNT_EXIST;
+    }
+
+    public Response updateUserPassword(User user, String referenceEmail, String currentEmail) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        EmailValidator emailValidator = new EmailValidator();
+
+        if(emailValidator.test(referenceEmail)) {
+            Optional<User> currentUser = userRepository.findByEmail(currentEmail);
+
+            if(referenceEmail.equals(currentEmail) || currentUser.get().getRole().equals(Role.ROLE_ADMIN)) {
+                if(userRepository.findByEmail(referenceEmail).isPresent()) {
+                    Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
+                    if(referenceUser.isPresent()) {
+                        referenceUser.get().setPassword(passwordEncoder.encode(user.getPassword()));
+                        userRepository.save(referenceUser.get());
+                        return Response.OK;
+                    }
+                }
+                return Response.REFERENCE_EMAIL_DOESNT_EXIST;
+            }
+            return Response.FORBIDDEN;
+        }
+        return Response.INVALID_EMAIL_FORMAT;
+    }
 }
