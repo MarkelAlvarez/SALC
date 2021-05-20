@@ -62,15 +62,10 @@ class UserRepositoryIT {
     @Test
     void testFindByEmail() {
         assertTrue(userRepository.findByEmail("test_admin@salc.org").isPresent());
-        System.out.println(userRepository.findByEmail("test_admin@salc.org"));
     }
-
 
     @Test
     void testFindAll() {
         assertFalse(userRepository.findAll().isEmpty());
-        List<User> userList = userRepository.findAll();
-        for(User user : userList)
-            System.out.println(user);
     }
 }
