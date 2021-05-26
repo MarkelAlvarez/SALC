@@ -14,4 +14,5 @@ public interface UserRepository extends ElasticsearchRepository<User, String> {
 	@Query("{\"match_phrase\": {\"email\": \"?0\"}}")
 	Optional<User> findByEmail(String email);
 	List<User> findAll();
+	void deleteByEmail(String email);
 }

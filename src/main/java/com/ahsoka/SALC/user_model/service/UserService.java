@@ -144,4 +144,17 @@ public class UserService implements UserDetailsService {
 
         return Response.REFERENCE_EMAIL_DOESNT_EXIST;
     }
+
+    public Response deleteUser(String email, String referenceEmail) {
+
+        if(userRepository.findByEmail(referenceEmail).isPresent())
+        {
+            Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
+            userRepository.deleteByEmail(referenceUser.get().getEmail());
+
+            return Response.OK;
+        }
+
+        return Response.REFERENCE_EMAIL_DOESNT_EXIST;
+    }
 }

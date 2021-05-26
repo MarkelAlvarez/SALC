@@ -1,5 +1,6 @@
 package com.ahsoka.SALC.user_model.controller;
 
+import com.ahsoka.SALC.user_model.dtos.DeleteUserRequest;
 import com.ahsoka.SALC.user_model.dtos.NewUserRequest;
 import com.ahsoka.SALC.user_model.dtos.TokenResponse;
 import com.ahsoka.SALC.user_model.dtos.UpdateUserRequest;
@@ -102,6 +103,17 @@ public class UserController {
     @PatchMapping(value = USERS + "role/")
     public String updateUserRole(@RequestBody UpdateUserRequest userRequest, @RequestParam String referenceEmail) {
         Response response = userService.updateUserRole(userRequest.toUser(), referenceEmail);
+
+        if(response.equals(Response.OK))
+            return String.valueOf(HttpServletResponse.SC_OK);
+        else
+            return HttpServletResponse.SC_NO_CONTENT + " " + response;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PatchMapping(value = USERS + "delete/")
+    public String deleteUser(@RequestBody DeleteUserRequest userRequest, @RequestParam String referenceEmail) {
+        Response response = userService.deleteUser(userRequest.getEmail(), referenceEmail);
 
         if(response.equals(Response.OK))
             return String.valueOf(HttpServletResponse.SC_OK);
