@@ -130,4 +130,18 @@ public class UserService implements UserDetailsService {
         }
         return Response.INVALID_EMAIL_FORMAT;
     }
+
+    public Response updateUserRole(User user, String referenceEmail) {
+
+        if(userRepository.findByEmail(referenceEmail).isPresent())
+        {
+            Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
+            referenceUser.get().setRole(user.getRole());
+            userRepository.save(referenceUser.get());
+
+            return Response.OK;
+        }
+
+        return Response.REFERENCE_EMAIL_DOESNT_EXIST;
+    }
 }

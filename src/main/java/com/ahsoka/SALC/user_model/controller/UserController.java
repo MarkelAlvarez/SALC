@@ -97,4 +97,15 @@ public class UserController {
         else
             return String.valueOf(HttpServletResponse.SC_FORBIDDEN);
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PatchMapping(value = USERS + "role/")
+    public String updateUserRole(@RequestBody UpdateUserRequest userRequest, @RequestParam String referenceEmail) {
+        Response response = userService.updateUserRole(userRequest.toUser(), referenceEmail);
+
+        if(response.equals(Response.OK))
+            return String.valueOf(HttpServletResponse.SC_OK);
+        else
+            return HttpServletResponse.SC_NO_CONTENT + " " + response;
+    }
 }
