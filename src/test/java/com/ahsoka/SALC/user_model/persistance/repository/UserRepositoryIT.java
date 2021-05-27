@@ -14,8 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -60,12 +59,19 @@ class UserRepositoryIT {
     }
 
     @Test
-    void testFindByEmail() {
-        assertTrue(userRepository.findByEmail("test_admin@salc.org").isPresent());
-    }
+    void testFindByEmail() { assertTrue(userRepository.findByEmail("test_admin@salc.org").isPresent()); }
 
     @Test
-    void testFindAll() {
-        assertFalse(userRepository.findAll().isEmpty());
-    }
+    void testFindAll() { assertFalse(userRepository.findAll().isEmpty()); }
+
+    @Test
+    void testDeleteUser() {assertFalse(userRepository.DeleteUser(User).isEmpty());}
+
+    @Test
+    void testDeleteByEmail() {assertFalse(userRepository.deleteByEmail("test_admin@salc.org").isPresent());}
+
+
+
+
+
 }
