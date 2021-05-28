@@ -65,10 +65,12 @@ class UserRepositoryIT {
     void testFindAll() { assertFalse(userRepository.findAll().isEmpty()); }
 
     @Test
-    void testDeleteUser() {assertFalse(userRepository.DeleteUser(User).isEmpty());}
-
-    @Test
-    void testDeleteByEmail() {assertFalse(userRepository.deleteByEmail("test_admin@salc.org").isPresent());}
+    void testDeleteByEmail() {
+        long actual = userRepository.count();
+        userRepository.deleteByEmail("test_admin@salc.org");
+        long afterDelete = userRepository.count();
+        assertNotEquals(actual, afterDelete);
+        }
 
 
 
