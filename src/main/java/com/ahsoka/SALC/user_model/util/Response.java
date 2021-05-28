@@ -1,4 +1,4 @@
-package com.ahsoka.SALC.user_model.service;
+package com.ahsoka.SALC.user_model.util;
 
 public enum Response {
     OK,

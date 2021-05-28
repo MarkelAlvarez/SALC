@@ -3,12 +3,16 @@ package com.ahsoka.SALC.user_model.controller;
 import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;
+import com.ahsoka.SALC.user_model.service.EmailValidator;
+import com.ahsoka.SALC.user_model.service.PasswordValidatorService;
 import com.ahsoka.SALC.user_model.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -20,11 +24,14 @@ class UserControllerIT {
     private UserService userService;
     private JwtService jwtService;
     private UserController userController;
+    private EmailValidator emailValidator;
+    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordValidatorService passwordValidatorService;
 
     @BeforeEach
     void before() {
         jwtService = new JwtService("secret-sign", "es-salc-ucm", 36000);
-        userService = new UserService(userRepository, jwtService);
+        userService = new UserService(userRepository, jwtService, emailValidator, passwordEncoder, passwordValidatorService);
         userController = new UserController(userService);
     }
 

@@ -5,7 +5,9 @@ import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;
+import com.ahsoka.SALC.user_model.util.Response;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +26,19 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
 
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private JwtService jwtService;
+    private final EmailValidator emailValidator;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordValidatorService passwordValidatorService;
+
+    public UserService() {
+        emailValidator = new EmailValidator();
+        passwordEncoder = new BCryptPasswordEncoder();
+        passwordValidatorService = new PasswordValidatorService();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -48,22 +61,18 @@ public class UserService implements UserDetailsService {
         Optional<User> user = userRepository.findByEmail(email);
 
         if(user.isPresent()) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             return passwordEncoder.matches(password, user.get().getPassword()) ?
                     Optional.of(jwtService.createToken(user.get().getEmail(), user.get().getRole().toString())) :
                     Optional.empty();
         }
-
         return Optional.empty();
     }
 
     public Response createUser(User newUser) {
         PasswordGeneratorService passwordGeneratorService = new PasswordGeneratorService();
-        EmailValidator emailValidator = new EmailValidator();
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String error = "";
+        Optional<User> user = userRepository.findByEmail(newUser.getEmail());
 
-        if(userRepository.findByEmail(newUser.getEmail()).isEmpty()) {
+        if(user.isEmpty()) {
             if(emailValidator.test(newUser.getEmail())) {
                 List<Role> roleList = Arrays.stream(Role.values()).toList();
                 if(roleList.contains(newUser.getRole())) {
@@ -83,17 +92,13 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> readUserByEmail(String email) {
-        EmailValidator emailValidator = new EmailValidator();
-        if(emailValidator.test(email))
-            return userRepository.findByEmail(email);
-        else
-            return Optional.empty();
+        return emailValidator.test(email) ? userRepository.findByEmail(email) : Optional.empty();
     }
 
     public Response updateUserEmail(User user, String referenceEmail) {
-        EmailValidator emailValidator = new EmailValidator();
+        Optional<User> presentUser = userRepository.findByEmail(referenceEmail);
 
-        if(userRepository.findByEmail(referenceEmail).isPresent()) {
+        if(presentUser.isPresent()) {
             if(emailValidator.test(user.getEmail())) {
                 if(userRepository.findByEmail(user.getEmail()).isEmpty()) {
                     Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
@@ -105,25 +110,19 @@ public class UserService implements UserDetailsService {
             }
             return Response.INVALID_EMAIL_FORMAT;
         }
-            return Response.REFERENCE_EMAIL_DOESNT_EXIST;
+        return Response.REFERENCE_EMAIL_DOESNT_EXIST;
     }
 
     public Response updateUserPassword(User user, String referenceEmail, String currentEmail) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        EmailValidator emailValidator = new EmailValidator();
-
-        if(emailValidator.test(referenceEmail)) {
-            Optional<User> currentUser = userRepository.findByEmail(currentEmail);
-
-            if(referenceEmail.equals(currentEmail) || currentUser.get().getRole().equals(Role.ROLE_ADMIN)) {
-                if(userRepository.findByEmail(referenceEmail).isPresent()) {
-                    Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
+        if(emailValidator.test(referenceEmail) && passwordValidatorService.passwordValidate(user.getPassword())) {
+            User currentUser = userRepository.findByEmail(currentEmail).get();
+            if(referenceEmail.equals(currentEmail) || currentUser.getRole().equals(Role.ROLE_ADMIN)) {
+                Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
                     if(referenceUser.isPresent()) {
                         referenceUser.get().setPassword(passwordEncoder.encode(user.getPassword()));
                         userRepository.save(referenceUser.get());
                         return Response.OK;
                     }
-                }
                 return Response.REFERENCE_EMAIL_DOESNT_EXIST;
             }
             return Response.FORBIDDEN;
@@ -132,29 +131,23 @@ public class UserService implements UserDetailsService {
     }
 
     public Response updateUserRole(User user, String referenceEmail) {
+        Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
 
-        if(userRepository.findByEmail(referenceEmail).isPresent())
-        {
-            Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
+        if(referenceUser.isPresent()) {
             referenceUser.get().setRole(user.getRole());
             userRepository.save(referenceUser.get());
-
             return Response.OK;
         }
-
         return Response.REFERENCE_EMAIL_DOESNT_EXIST;
     }
 
-    public Response deleteUser(String email, String referenceEmail) {
+    public Response deleteUser(String email) {
+        Optional<User> referenceUser = userRepository.findByEmail(email);
 
-        if(userRepository.findByEmail(referenceEmail).isPresent())
-        {
-            Optional<User> referenceUser = userRepository.findByEmail(referenceEmail);
+        if(referenceUser.isPresent()) {
             userRepository.deleteByEmail(referenceUser.get().getEmail());
-
             return Response.OK;
         }
-
         return Response.REFERENCE_EMAIL_DOESNT_EXIST;
     }
 }

@@ -4,10 +4,9 @@ import com.ahsoka.SALC.user_model.dtos.DeleteUserRequest;
 import com.ahsoka.SALC.user_model.dtos.NewUserRequest;
 import com.ahsoka.SALC.user_model.dtos.TokenResponse;
 import com.ahsoka.SALC.user_model.dtos.UpdateUserRequest;
-import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
-import com.ahsoka.SALC.user_model.service.Response;
 import com.ahsoka.SALC.user_model.service.UserService;
+import com.ahsoka.SALC.user_model.util.Response;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +26,13 @@ import java.util.stream.Stream;
 public class UserController {
 
     @Autowired
-    private JwtService jwtService;
-    @Autowired
     private UserService userService;
-
     private static final String USERS = "/users/";
     private static final String AUTHENTICATION = "/authentication/";
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping(value = AUTHENTICATION)
     public Optional<TokenResponse> login(@RequestBody User user) {
         Optional<String> token = userService.login(user.getEmail(), user.getPassword());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(token.isPresent())
             return Optional.of(new TokenResponse(token.get()));
@@ -112,8 +103,8 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping(value = USERS + "delete/")
-    public String deleteUser(@RequestBody DeleteUserRequest userRequest, @RequestParam String referenceEmail) {
-        Response response = userService.deleteUser(userRequest.getEmail(), referenceEmail);
+    public String deleteUser(@RequestBody DeleteUserRequest userRequest) {
+        Response response = userService.deleteUser(userRequest.getEmail());
 
         if(response.equals(Response.OK))
             return String.valueOf(HttpServletResponse.SC_OK);

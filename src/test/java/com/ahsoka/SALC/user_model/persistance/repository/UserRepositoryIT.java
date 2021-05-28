@@ -3,7 +3,10 @@ package com.ahsoka.SALC.user_model.persistance.repository;
 import com.ahsoka.SALC.user_model.UserElasticSearchContainer;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +60,9 @@ class UserRepositoryIT {
     }
 
     @Test
-    void testFindByEmail() { assertTrue(userRepository.findByEmail("test_admin@salc.org").isPresent()); }
+    void testFindByEmail() {
+        assertTrue(userRepository.findByEmail("test_admin@salc.org").isPresent());
+    }
 
     @Test
     void testFindAll() { assertFalse(userRepository.findAll().isEmpty()); }
@@ -70,7 +73,7 @@ class UserRepositoryIT {
         userRepository.deleteByEmail("test_admin@salc.org");
         long afterDelete = userRepository.count();
         assertNotEquals(actual, afterDelete);
-        }
+    }
 
 
 
