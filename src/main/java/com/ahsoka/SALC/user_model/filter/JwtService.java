@@ -17,9 +17,9 @@ public class JwtService {
     private static final String USER_CLAIM = "user";
     private static final String ROLE_CLAIM = "role";
 
-    private String secret;
-    private String issuer;
-    private int expire;
+    private final String secret;
+    private final String issuer;
+    private final int expire;
 
     @Autowired
     public JwtService(@Value("${salc.jwt.secret}") String secret, @Value("${salc.jwt.issuer}") String issuer,

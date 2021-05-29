@@ -1,7 +1,7 @@
 package com.ahsoka.SALC.user_model.persistance.entity;
 
-import lombok.*;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;

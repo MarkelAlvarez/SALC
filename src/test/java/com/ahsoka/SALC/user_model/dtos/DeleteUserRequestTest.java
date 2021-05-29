@@ -1,6 +1,5 @@
 package com.ahsoka.SALC.user_model.dtos;
 
-import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
