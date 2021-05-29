@@ -19,7 +19,7 @@ public class NewUserRequest {
     @NotNull
     private Role role;
 
-    public User toUser(){
+    public User toUser() {
         User user = new User();
         user.setEmail(email);
         user.setRole(role);

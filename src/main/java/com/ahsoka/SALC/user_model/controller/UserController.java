@@ -1,10 +1,6 @@
 package com.ahsoka.SALC.user_model.controller;
 
-import com.ahsoka.SALC.user_model.dtos.DeleteUserRequest;
-import com.ahsoka.SALC.user_model.dtos.NewUserRequest;
-import com.ahsoka.SALC.user_model.dtos.TokenResponse;
-import com.ahsoka.SALC.user_model.dtos.UpdateUserRequest;
-import com.ahsoka.SALC.user_model.persistance.entity.User;
+import com.ahsoka.SALC.user_model.dtos.*;
 import com.ahsoka.SALC.user_model.service.UserService;
 import com.ahsoka.SALC.user_model.util.Response;
 import lombok.AllArgsConstructor;
@@ -31,7 +27,7 @@ public class UserController {
     private static final String AUTHENTICATION = "/authentication/";
 
     @PostMapping(value = AUTHENTICATION)
-    public Optional<TokenResponse> login(@RequestBody User user) {
+    public Optional<TokenResponse> login(@RequestBody UserResponse user) {
         Optional<String> token = userService.login(user.getEmail(), user.getPassword());
 
         if(token.isPresent())
@@ -53,13 +49,13 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = USERS)
-    public Stream<User> readAll() {
+    public Stream<UserResponse> readAll() {
         return userService.readAll();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = USERS + "email/")
-    public Optional<User> readUserByEmail(@RequestParam String email) {
+    public Optional<UserResponse> readUserByEmail(@RequestParam String email) {
         return userService.readUserByEmail(email);
     }
 

@@ -1,5 +1,6 @@
 package com.ahsoka.SALC.user_model.controller;
 
+import com.ahsoka.SALC.user_model.dtos.UserResponse;
 import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;
@@ -41,8 +42,8 @@ class UserControllerIT {
         User usuario = new User();
         usuario.setEmail("test_admin@salc.org");
         usuario.setPassword("aPassword");
-
-        assertTrue(userController.login(usuario).isPresent());
+        UserResponse userResponse = new UserResponse(usuario);
+        assertTrue(userController.login(userResponse).isPresent());
     }
 
     @Disabled
@@ -51,8 +52,8 @@ class UserControllerIT {
         User usuario = new User();
         usuario.setEmail("test_admin@salc.org");
         usuario.setPassword("wrongPassword");
-
-        assertTrue(userController.login(usuario).isEmpty());
+        UserResponse userResponse = new UserResponse(usuario);
+        assertTrue(userController.login(userResponse).isEmpty());
     }
 
     @Disabled
@@ -61,7 +62,7 @@ class UserControllerIT {
         User usuario = new User();
         usuario.setEmail("prueba@salc.org");
         usuario.setPassword("admin");
-
-        assertTrue(userController.login(usuario).isEmpty());
+        UserResponse userResponse = new UserResponse(usuario);
+        assertTrue(userController.login(userResponse).isEmpty());
     }
 }

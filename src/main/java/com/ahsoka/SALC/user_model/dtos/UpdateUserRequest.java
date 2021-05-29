@@ -18,7 +18,6 @@ public class UpdateUserRequest {
         user.setEmail(email);
         user.setRole(role);
         user.setPassword(password);
-
         return user;
     }
 }

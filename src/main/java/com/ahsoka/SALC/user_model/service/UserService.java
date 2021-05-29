@@ -1,5 +1,6 @@
 package com.ahsoka.SALC.user_model.service;
 
+import com.ahsoka.SALC.user_model.dtos.UserResponse;
 import com.ahsoka.SALC.user_model.exceptions.UserNotFoundException;
 import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
@@ -87,12 +88,16 @@ public class UserService implements UserDetailsService {
             return Response.USER_ALREADY_EXISTS;
     }
 
-    public Stream<User> readAll() {
-        return userRepository.findAll().stream();
+    public Stream<UserResponse> readAll() {
+        List<UserResponse> userResponseStream = new ArrayList<>();
+        userRepository.findAll().forEach(user -> userResponseStream.add(new UserResponse(user)));
+        return userResponseStream.stream();
     }
 
-    public Optional<User> readUserByEmail(String email) {
-        return emailValidator.test(email) ? userRepository.findByEmail(email) : Optional.empty();
+    public Optional<UserResponse> readUserByEmail(String email) {
+        return emailValidator.test(email) ?
+                userRepository.findByEmail(email).stream().map(UserResponse::new).findAny()
+                : Optional.empty();
     }
 
     public Response updateUserEmail(User user, String referenceEmail) {
