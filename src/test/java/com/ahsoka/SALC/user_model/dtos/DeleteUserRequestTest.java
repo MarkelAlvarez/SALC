@@ -13,7 +13,8 @@ class DeleteUserRequestTest {
 
     @BeforeEach
     void before() {
-        deleteUserRequest = new DeleteUserRequest("test@salc.org");
+        deleteUserRequest = new DeleteUserRequest();
+        deleteUserRequest.setEmail("test@salc.org");
     }
 
     @Test

@@ -3,8 +3,10 @@ package com.ahsoka.SALC.user_model.dtos;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class UserResponse {
     private String email;
     private Role role;
