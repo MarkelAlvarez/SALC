@@ -98,7 +98,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping(value = USERS + "delete/")
+    @DeleteMapping(value = USERS)
     public String deleteUser(@RequestBody DeleteUserRequest userRequest) {
         Response response = userService.deleteUser(userRequest.getEmail());
 
@@ -106,5 +106,12 @@ public class UserController {
             return String.valueOf(HttpServletResponse.SC_OK);
         else
             return HttpServletResponse.SC_NO_CONTENT + " " + response;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(value = USERS + "batch/")
+    public String batchUserDelete(@RequestBody DeleteUserRequest userRequest) {
+        Response response = userService.batchUserDelete(userRequest.getEmails());
+        return HttpServletResponse.SC_OK + " " + response;
     }
 }

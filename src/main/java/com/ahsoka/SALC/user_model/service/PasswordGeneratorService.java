@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 public class PasswordGeneratorService {
 
-    public static final String ALLOWED_SPL_CHARACTERS = "!@#$%^&*()_+";
+    public static final String ALLOWED_SPL_CHARACTERS = "!@#$%^&*";
     public static final String ERROR_CODE = "ERRONEOUS_SPECIAL_CHARS";
 
     public String generate() {

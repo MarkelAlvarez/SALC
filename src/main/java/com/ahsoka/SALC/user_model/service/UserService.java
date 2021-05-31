@@ -17,10 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Service
@@ -154,5 +151,21 @@ public class UserService implements UserDetailsService {
             return Response.OK;
         }
         return Response.REFERENCE_EMAIL_DOESNT_EXIST;
+    }
+
+    public Response batchUserDelete(List<String> emails) {
+        if(emails.isEmpty())
+            return Response.EMPTY_REQUEST;
+
+        Set<String> clearEmails = new HashSet<>(emails);
+
+        userRepository.findAll().forEach(user -> {
+            if(clearEmails.contains(user.getEmail())) {
+                clearEmails.remove(user.getEmail());
+                userRepository.deleteByEmail(user.getEmail());
+            }
+        });
+
+        return Response.OK;
     }
 }
