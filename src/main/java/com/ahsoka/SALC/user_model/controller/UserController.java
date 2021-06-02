@@ -10,9 +10,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -113,5 +115,16 @@ public class UserController {
     public String batchUserDelete(@RequestBody DeleteUserRequest userRequest) {
         Response response = userService.batchUserDelete(userRequest.getEmails());
         return HttpServletResponse.SC_OK + " " + response;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping(value = USERS + "batch/")
+    public String batchUserCreate(@RequestParam("file") MultipartFile file) {
+        Map<UserResponse, Response> responses = userService.batchUserCreate(file);
+
+        if(responses.isEmpty()) {
+            return String.valueOf(HttpServletResponse.SC_OK);
+        } else
+            return responses.toString();
     }
 }

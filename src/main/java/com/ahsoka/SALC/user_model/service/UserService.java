@@ -1,11 +1,13 @@
 package com.ahsoka.SALC.user_model.service;
 
+import com.ahsoka.SALC.user_model.dtos.NewUserRequest;
 import com.ahsoka.SALC.user_model.dtos.UserResponse;
 import com.ahsoka.SALC.user_model.exceptions.UserNotFoundException;
 import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;
+import com.ahsoka.SALC.user_model.util.HandlerCSV;
 import com.ahsoka.SALC.user_model.util.Response;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -168,4 +172,26 @@ public class UserService implements UserDetailsService {
 
         return Response.OK;
     }
+
+    public Map<UserResponse, Response> batchUserCreate(MultipartFile file) {
+        List<NewUserRequest> users;
+        HandlerCSV handlerCSV = new HandlerCSV();
+        Map<UserResponse, Response> invalidUsers = new HashMap<>();
+
+        if(handlerCSV.hasCSVFormat(file)) {
+            try {
+                users = handlerCSV.csvToUsers(file.getInputStream());
+                for(NewUserRequest userRequest : users) {
+                    Response response = createUser(userRequest.toUser());
+                    if(!response.equals(Response.OK))
+                        invalidUsers.put(new UserResponse(userRequest.toUser()), response);
+                }
+                return invalidUsers;
+            } catch (IOException e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
 }
