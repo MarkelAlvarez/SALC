@@ -1,6 +1,6 @@
-package com.ahsoka.SALC.user_model.security;
+package com.ahsoka.SALC.security;
 
-import com.ahsoka.SALC.user_model.filter.JwtAuthenticationFilter;
+import com.ahsoka.SALC.filter.JwtAuthenticationFilter;
 import com.ahsoka.SALC.user_model.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

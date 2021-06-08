@@ -1,4 +1,4 @@
-package com.ahsoka.SALC.user_model.filter;
+package com.ahsoka.SALC.filter;
 
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import org.junit.jupiter.api.BeforeEach;

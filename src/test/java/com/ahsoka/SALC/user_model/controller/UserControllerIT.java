@@ -1,8 +1,8 @@
 package com.ahsoka.SALC.user_model.controller;
 
-import com.ahsoka.SALC.user_model.UserElasticSearchContainer;
+import com.ahsoka.SALC.CustomElasticSearchContainer;
+import com.ahsoka.SALC.filter.JwtService;
 import com.ahsoka.SALC.user_model.dtos.UserResponse;
-import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;
@@ -30,7 +30,7 @@ class UserControllerIT {
     private UserController userController;
 
     @Container
-    private static ElasticsearchContainer elasticsearchContainer = new UserElasticSearchContainer();
+    private static ElasticsearchContainer elasticsearchContainer = new CustomElasticSearchContainer();
 
     @BeforeAll
     static void setUp() {
