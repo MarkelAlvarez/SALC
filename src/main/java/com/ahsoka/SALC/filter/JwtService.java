@@ -1,4 +1,4 @@
-package com.ahsoka.SALC.user_model.filter;
+package com.ahsoka.SALC.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

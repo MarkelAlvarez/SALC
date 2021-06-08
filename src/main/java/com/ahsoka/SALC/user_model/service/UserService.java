@@ -1,9 +1,9 @@
 package com.ahsoka.SALC.user_model.service;
 
+import com.ahsoka.SALC.filter.JwtService;
 import com.ahsoka.SALC.user_model.dtos.NewUserRequest;
 import com.ahsoka.SALC.user_model.dtos.UserResponse;
 import com.ahsoka.SALC.user_model.exceptions.UserNotFoundException;
-import com.ahsoka.SALC.user_model.filter.JwtService;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import com.ahsoka.SALC.user_model.persistance.repository.UserRepository;

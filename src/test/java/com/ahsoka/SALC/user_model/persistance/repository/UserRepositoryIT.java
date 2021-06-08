@@ -1,6 +1,6 @@
 package com.ahsoka.SALC.user_model.persistance.repository;
 
-import com.ahsoka.SALC.user_model.UserElasticSearchContainer;
+import com.ahsoka.SALC.CustomElasticSearchContainer;
 import com.ahsoka.SALC.user_model.persistance.entity.Role;
 import com.ahsoka.SALC.user_model.persistance.entity.User;
 import org.junit.jupiter.api.AfterAll;
@@ -26,7 +26,7 @@ class UserRepositoryIT {
     UserRepository userRepository;
 
     @Container
-    private static ElasticsearchContainer elasticsearchContainer = new UserElasticSearchContainer();
+    private static ElasticsearchContainer elasticsearchContainer = new CustomElasticSearchContainer();
 
     @BeforeAll
     static void setUp() {

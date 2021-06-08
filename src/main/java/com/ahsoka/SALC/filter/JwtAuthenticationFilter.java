@@ -1,4 +1,4 @@
-package com.ahsoka.SALC.user_model.filter;
+package com.ahsoka.SALC.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
