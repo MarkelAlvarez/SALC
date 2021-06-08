@@ -1,19 +1,17 @@
 package com.ahsoka.SALC.user_model.service;
 
 import lombok.NoArgsConstructor;
-
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
-
 import org.springframework.stereotype.Service;
 
 @Service
 @NoArgsConstructor
 public class PasswordGeneratorService {
 
-    public static final String ALLOWED_SPL_CHARACTERS = "!@#$%^&*()_+";
+    public static final String ALLOWED_SPL_CHARACTERS = "!@#$%^&*";
     public static final String ERROR_CODE = "ERRONEOUS_SPECIAL_CHARS";
 
     public String generate() {
